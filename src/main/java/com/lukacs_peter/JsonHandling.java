@@ -14,7 +14,7 @@ import java.io.FileReader;
 
 public class JsonHandling {
 
-    public static void generateJson(String fileName) {
+    public static int generateJson(String fileName) {
         Random rand = new Random();
 
         JSONObject obj = new JSONObject(); //root Json object
@@ -33,10 +33,9 @@ public class JsonHandling {
             file.write(obj.toJSONString());
             file.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            return 1;
         }
-
-        System.out.println(obj);
+        return 0;
     }
 
     public static Knapsack readJson(String fileName) {
@@ -47,7 +46,6 @@ public class JsonHandling {
         {
             JSONObject jObj = (JSONObject) jsonParser.parse(reader); //get file contents as Json object
             JSONArray items = (JSONArray) jObj.get("items"); //get items array from the json object
-            System.out.println(jObj.get("maxWeight"));
             int maxWeight = ((Long) jObj.get("maxWeight")).intValue();
             int size = items.size();
             int[] wt = new int[size];
@@ -60,7 +58,6 @@ public class JsonHandling {
             }
 
             knapsack = new Knapsack(size,maxWeight,wt,val);
-            System.out.println(knapsack.getItemCount() + " " + knapsack.getMaxWeight() + " " + Arrays.toString(knapsack.getValues()) + " " + Arrays.toString(knapsack.getWeights()));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return null;
